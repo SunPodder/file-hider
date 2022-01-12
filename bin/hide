@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+help="
+Usage: hide [image path] [files to hide]
+"
+
+if [[ $1=="--help" || $1=="-h" ]]
+then
+echo $help
+fi
+
+if [[ -z "$1" || -z "$2" ]]
+then
+echo $help
+else
+
+zip -r $2.zip $2
+
+cat $1 $2.zip > $1
+rm -rf $2.zip $2
+
+fi

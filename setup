@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+echo "$PATH=$PATH:~/file-hider/bin" >> ~/.bashrc
+echo "export $PATH" >> ~/.bashrc
