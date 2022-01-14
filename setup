@@ -1,4 +1,8 @@
 #!/usr/bin/bash
 
-echo "$PATH=$PATH:~/file-hider/bin" >> ~/.bashrc
-echo "export $PATH" >> ~/.bashrc
+echo "export PATH=\$PATH:~/file-hider/bin" >> ~/.bashrc
+
+chmod 777 ./bin/hide
+chmod 777 ./bin/recover
+
+source ~/.bashrc

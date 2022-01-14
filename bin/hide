@@ -1,22 +1,41 @@
 #!/usr/bin/bash
 
+blue="\e[1;34m"
+white="\e[0m"
+red="\e[1;31m"
+yellow="\e[1;33m"
+big="\033[1m"
+
 help="
-Usage: hide [image path] [files to hide]
+${big}Hide your secret files inside a image securely.
+
+${yellow}Usage:$white hide [image path] [files to hide]
+
+
+${red}image path:$white Path of the image where your files will be hidden.
+
+${red}files to hide:$white Path of the files you want to hide.
+
+${blue}NOTE:$white It is recommended to keep all your files and folders in a parent folder.
 "
 
-if [[ $1=="--help" || $1=="-h" ]]
+if [[ "$1" == "--help" || "$1" == "-h" ]]
 then
-echo $help
-fi
+printf "$help"
 
-if [[ -z "$1" || -z "$2" ]]
+elif [[ -z "$1" || -z "$2" ]]
 then
-echo $help
+printf "${yellow}Usage:$white hide [image path] [files to hide]
+Type hide -h or hide --help for more info.
+"
 else
 
-zip -r $2.zip $2
+IFS="."
+read -ra newName <<< "$1"
+IFS=""
 
-cat $1 $2.zip > $1
-rm -rf $2.zip $2
+zip -r $2.zip $2 > /dev/null 2>&1
+cat $1 $2.zip > "${newName}_secret.jpg"
+rm -rf $2.zip
 
 fi
