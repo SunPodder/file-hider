@@ -1,8 +1,15 @@
 #!/usr/bin/bash
 
 echo "export PATH=\$PATH:~/file-hider/bin" >> ~/.bashrc
+mkdir -p ~/file-hider/bin
 
-chmod 777 ./bin/hide
-chmod 777 ./bin/recover
+
+curl https://sunpodder.github.io/file-hider/bin/hide -o ~/file-hider/bin/hide
+
+curl https://sunpodder.github.io/file-hider/bin/recover -o ~/file-hider/bin/recover
+
+
+chmod 777 ~/file-hider/bin/hide
+chmod 777 ~/file-hider/bin/recover
 
 source ~/.bashrc
