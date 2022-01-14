@@ -1,12 +1,24 @@
 #!/usr/bin/bash
 
+blue="\e[1;34m"
+
+chars="🕘🕛🕒🕠"
+
+while :; do
+  for (( i=0; i<${#chars}; i++ )); do
+    sleep 0.1
+    echo -en "${blue}Setting up everything...${chars:$i:1}" "\r"
+  done
+done &
+
+
 echo "export PATH=\$PATH:~/file-hider/bin" >> ~/.bashrc
 mkdir -p ~/file-hider/bin
 
 
-curl https://sunpodder.github.io/file-hider/bin/hide -o ~/file-hider/bin/hide
+curl https://sunpodder.github.io/file-hider/bin/hide -o ~/file-hider/bin/hide > /dev/null 2>&1
 
-curl https://sunpodder.github.io/file-hider/bin/recover -o ~/file-hider/bin/recover
+curl https://sunpodder.github.io/file-hider/bin/recover -o ~/file-hider/bin/recover > /dev/null 2>&1
 
 
 chmod 777 ~/file-hider/bin/hide
