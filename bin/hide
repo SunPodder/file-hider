@@ -52,6 +52,6 @@ IFS=""
 zip -r $2.zip $2 > /dev/null 2>&1
 cat $1 $2.zip > "${newName}_secret.jpg"
 rm -rf $2.zip
+echo "Hid file in: ${newName}_secret.jpg"
 
 fi
-echo $1
