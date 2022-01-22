@@ -15,8 +15,9 @@ done &
 echo "export PATH=\$PATH:~/file-hider/bin" >> ~/.bashrc
 mkdir -p ~/file-hider/bin
 
+apt install zip unzip > /dev/null 2>&1
 
-curl https://sunpodder.github.io/file-hider/bin/hide -o ~/file-hider/bin/hide > /dev/null 2>&1
+curl https://sunpodder.github.io/file-hider/bin/hide -o ~/file-hider/bin/hide > /dev/null 2>&1 || apt install curl > /dev/null 2>&1
 
 curl https://sunpodder.github.io/file-hider/bin/recover -o ~/file-hider/bin/recover > /dev/null 2>&1
 
@@ -25,3 +26,5 @@ chmod 777 ~/file-hider/bin/hide
 chmod 777 ~/file-hider/bin/recover
 
 source ~/.bashrc
+
+exit
