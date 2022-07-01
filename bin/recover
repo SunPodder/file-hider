@@ -5,39 +5,46 @@ white="\e[0m"
 red="\e[1;31m"
 yellow="\e[1;33m"
 big="\033[1m"
+version="2.0.3"
 
-help="${big}Recover hidden files from an image
 
+show_help(){
+echo -en "
+${big}Recover hidden files from an image
 
 ${yellow}Usage:$white recover [path to image]
 
 ${red}path to image:$white the image where you have hidden your files previously.
 "
+}
 
-version="1.0.3"
-versionMsg="
+
+show_version(){
+echo -en "
 ${yellow}${big}File Hider$white
 By$blue SunPodder$white ${red}[${white}github.com/SunPodder${red}]$white
 Version:$blue $version $white
 "
+}
+
+recover(){
+
+unzip "$1"
+}
 
 
-if [[ "$1" == "--help" || "$1" == "-h" ]]
-then
+while [ $# -gt 0 ]; do
 
-printf "$help"
+case $1 in
+  -h | --help) show_help;;
+  -v | --version) show_version;;
+  -i | --image) image="$2"; shift;;
+esac
+shift
 
-elif [[ "$1" == "-v" || "$1" == "--version" ]]
-then
-printf "$versionMsg"
+done
 
-elif [[ -z $1 ]]
-then
 
-printf "${yellow}Usage:$white recover [path to image]
-Type hide -h or hide --help for more info.
-"
-
-else
-unzip $1 > /dev/null 2>&1
+if ![ -z "$image" ]; then
+recover "$image"
 fi

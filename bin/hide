@@ -5,14 +5,17 @@ white="\e[0m"
 red="\e[1;31m"
 yellow="\e[1;33m"
 big="\033[1m"
-version="1.0.3"
+version="2.0.3"
 
-help="
+
+
+show_help(){
+echo -en "
 ${big}Hide your secret files inside a image securely.
 
 ${yellow}Usage:$white hide [image path] [files to hide]
 
-${red}check version:$white -v | --verison
+${red}check version:$white -v | --version
 
 ${red}image path:$white Path of the image where your files will be hidden.
 
@@ -20,38 +23,54 @@ ${red}files to hide:$white Path of the files you want to hide.
 
 ${blue}NOTE:$white It is recommended to keep all your files and folders in a parent folder.
 "
+}
 
-versionMsg="
+show_version(){
+echo -en "
 ${yellow}${big}File Hider$white
 By$blue SunPodder$white ${red}[${white}github.com/SunPodder${red}]$white
 Version:$blue $version $white
 "
+}
 
-if [[ "$1" == "--help" || "$1" == "-h" ]]
-then
-printf "$help"
+on_error(){
+echo -en "Invalid command.
+Type ${yellow}hide -h${white} or ${yellow}hide --help.${white}"
+}
 
-elif [[ "$1" == "-v" || "$1" == "--version" ]]
-then
 
-printf "$versionMsg"
-
-elif [[ -z "$1" || -z "$2" ]]
-then
-
-printf "${yellow}Usage:$white hide [image path] [files to hide]
-Type hide -h or hide --help for more info.
-"
-
-else
-
+hide_files(){
 IFS="."
 read -ra newName <<< "$1"
 IFS=""
 
-zip -r $2.zip $2 > /dev/null 2>&1
-cat $1 $2.zip > "${newName}_secret.jpg"
-rm -rf $2.zip
-echo "Hid file in: ${newName}_secret.jpg"
+zip -r $2.zip $2 > /dev/null 2>&1 &
+cat $1 $2.zip > "${newName}_secret.jpg" &
+rm -rf $2.zip &
+echo "File hidden in: ${newName}_secret.jpg"
+}
 
+
+
+while [ $# -gt 0 ]; do
+
+case $1 in
+  -f | --file) if [ -z $2 ]; then on_error; exit 127; fi; file="$2"; shift;;
+  -i | --image) if [ -z $2 ]; then on_error; exit 127; fi; image="$2"; shift;;
+
+  -h | --help) show_help; exit 0;;
+  -v | --version) show_version; exit 0;;
+esac
+
+shift
+done
+
+
+
+if [ -z "$file" ] | [ -z "$image" ]; then
+on_error
+else
+hide "$image" "$file"
 fi
+
+

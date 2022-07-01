@@ -1,21 +1,27 @@
 #!/usr/bin/bash
 
-blue="\e[1;34m"
 
+show_spinner(){
 chars="🕘🕛🕒🕠"
 
-while :; do
-  for (( i=0; i<${#chars}; i++ )); do
-    sleep 0.1
-    echo -en "${blue}Setting up everything...${chars:$i:1}" "\r"
-  done
-done &
+local -r pid="${1}"
+local temp
+
+while ps a | awk '{print $1}' | grep -q "${pid}"
+do
+for (( i=0; i<${#chars}; i++ )); do
+sleep 0.1
+echo -en "${blue}Setting up everything...${chars:$i:1}" "\r"
+done
+done
+}
 
 
+setup(){
 echo "export PATH=\$PATH:~/file-hider/bin" >> ~/.bashrc
 mkdir -p ~/file-hider/bin
 
-apt install zip unzip > /dev/null 2>&1
+apt install zip unzip > /dev/null 2>&1 &
 
 curl https://sunpodder.github.io/file-hider/bin/hide -o ~/file-hider/bin/hide > /dev/null 2>&1 || apt install curl > /dev/null 2>&1
 
@@ -26,5 +32,6 @@ chmod 777 ~/file-hider/bin/hide
 chmod 777 ~/file-hider/bin/recover
 
 source ~/.bashrc
+}
 
-exit
+setup & show_spinner "$!"

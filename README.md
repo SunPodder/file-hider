@@ -4,7 +4,7 @@ Hide your files inside of a image.
 
 ## Installation:
 ```
-wget https://sunpodder.github.io/file-hider/setup && bash setup
+curl https://sunpodder.github.io/file-hider/setup | bash
 ```
 
 ## Usage:
